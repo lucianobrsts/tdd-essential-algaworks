@@ -47,4 +47,9 @@ public class PedidoVendaTest {
 
 		assertResumoPedido(30, 0.0);
 	}
+	
+	@Test
+	public void deveAplicarDescontoNa1aFaixa() throws Exception {
+		
+	}
 }
