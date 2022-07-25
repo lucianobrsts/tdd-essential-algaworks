@@ -15,12 +15,9 @@ public class PedidoVendaTest {
 	}
 
 	private void assertResumoPedido(double valorTotal, double desconto) {
-		assertEquals(valorTotal, pedido.valorTotal(), 0.0001);
-		assertEquals(valorTotal, pedido.valorTotal(), 0.0001);
-		assertEquals(valorTotal, pedido.valorTotal(), 0.0001);
-		assertEquals(valorTotal, pedido.valorTotal(), 0.0001);
-		assertEquals(valorTotal, pedido.valorTotal(), 0.0001);
-		assertEquals(desconto, pedido.desconto(), 0.0001);
+		ResumoPedido resumoPedido = pedido.resumo();
+		assertEquals(valorTotal, resumoPedido.getValorTatal(), 0.0001);
+		assertEquals(desconto, resumoPedido.getDesconto(), 0.0001);
 	}
 
 	@Test
@@ -47,9 +44,28 @@ public class PedidoVendaTest {
 
 		assertResumoPedido(30, 0.0);
 	}
-	
+
 	@Test
 	public void deveAplicarDescontoNa1aFaixa() throws Exception {
+		pedido.adicionarItem(new ItemPedido("Creme", 20.0, 20));
+
+		assertResumoPedido(400, 16.0);
+	}
+
+	@Test
+	public void deveAplicarDescontoNa2aFaixa() throws Exception {
+		pedido.adicionarItem(new ItemPedido("Shampo", 15.0, 30));
+		pedido.adicionarItem(new ItemPedido("Óleo", 15.0, 30));
+
+		assertResumoPedido(900.0, 54.0);
+	}
+
+	@Test
+	public void deveAplicarDescontoNa3aFaixa() throws Exception {
+		pedido.adicionarItem(new ItemPedido("Creme", 15.0, 30));
+		pedido.adicionarItem(new ItemPedido("Óleo", 15.0, 30));
+		pedido.adicionarItem(new ItemPedido("Shampoo", 10.0, 30));
 		
+		assertResumoPedido(1200, 96.0);
 	}
 }
