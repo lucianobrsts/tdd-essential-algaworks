@@ -5,20 +5,21 @@ import java.util.List;
 
 public class Pedido {
 
-	private double desconto;
-
 	private List<ItemPedido> itens = new ArrayList<>();
 
 	public void adicionarItem(ItemPedido itemPedido) {
 		itens.add(itemPedido);
 	}
 
-	public double valorTotal() {
-		return itens.stream().mapToDouble(i -> i.getValorUnitario() * i.getQuantidade()).sum();
-	}
+	public ResumoPedido resumo() {
+		double valorTotal = itens.stream().mapToDouble(i -> i.getValorUnitario() * i.getQuantidade()).sum();
+		double desconto = 0;
 
-	public double desconto() {
-		return desconto;
+		if (valorTotal > 300.0) {
+			desconto = valorTotal * 0.04;
+		}
+
+		return new ResumoPedido(valorTotal, desconto);
 	}
 
 }
