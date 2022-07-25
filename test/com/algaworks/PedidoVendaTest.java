@@ -5,13 +5,25 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.algaworks.desconto.CalculadoraDescontoPrimeiraFaiixa;
+import com.algaworks.desconto.CalculadoraDescontoSegundaFaixa;
+import com.algaworks.desconto.CalculadoraDescontoTerceiraFaixa;
+import com.algaworks.desconto.CalculadoraFaixaDesconto;
+import com.algaworks.desconto.SemDesconto;
+
 public class PedidoVendaTest {
 
 	private Pedido pedido;
 
 	@Before
 	public void setup() {
-		pedido = new Pedido();
+		CalculadoraFaixaDesconto calculadoraFaixaDesconto = 
+				new CalculadoraDescontoTerceiraFaixa(
+						new CalculadoraDescontoSegundaFaixa(
+								new CalculadoraDescontoPrimeiraFaiixa(
+										new SemDesconto(null))));
+		
+		pedido = new Pedido(calculadoraFaixaDesconto);
 	}
 
 	private void assertResumoPedido(double valorTotal, double desconto) {
@@ -22,7 +34,6 @@ public class PedidoVendaTest {
 
 	@Test
 	public void devePermitirAdicionarUmItemNoPedido() throws Exception {
-		Pedido pedido = new Pedido();
 		pedido.adicionarItem(new ItemPedido("Sabonete", 3.0, 10));
 	}
 
