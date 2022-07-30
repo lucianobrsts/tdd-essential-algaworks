@@ -28,12 +28,14 @@ public class PedidoTest {
 	@Test
 	public void deveCalcularResumoParaUmItemSemDesconto() throws Exception {
 		pedido.comItem(5.0, 5);
+		
 		assertResumoPedido(25.0, 0.0);
 	}
 
 	@Test
 	public void deveCalcularResumoParaDoisitensSemDesconto() throws Exception {
-		pedido.comItem(3.0, 3).comItem(7.0, 3);
+		pedido.comItem(3.0, 3)
+		.comItem(7.0, 3);
 
 		assertResumoPedido(30, 0.0);
 	}
@@ -47,15 +49,23 @@ public class PedidoTest {
 
 	@Test
 	public void deveAplicarDescontoNa2aFaixa() throws Exception {
-		pedido.comItem(15.0, 30).comItem(15.0, 30);
+		pedido.comItem(15.0, 30)
+		.comItem(15.0, 30);
 
 		assertResumoPedido(900.0, 54.0);
 	}
 
 	@Test
 	public void deveAplicarDescontoNa3aFaixa() throws Exception {
-		pedido.comItem(15.0, 30).comItem(15.0, 30).comItem(10.0, 30);
+		pedido.comItem(15.0, 30)
+		.comItem(15.0, 30)
+		.comItem(10.0, 30);
 
 		assertResumoPedido(1200, 96.0);
+	}
+	
+	@Test(expected = QuantidadeItensInvalidaException.class)
+	public void naoAceitarPedidosComItensComQuantidadesNegativas() throws Exception {
+		pedido.comItem(0.0, -10);
 	}
 }
