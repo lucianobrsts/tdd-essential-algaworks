@@ -5,12 +5,6 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.algaworks.desconto.CalculadoraDescontoPrimeiraFaiixa;
-import com.algaworks.desconto.CalculadoraDescontoSegundaFaixa;
-import com.algaworks.desconto.CalculadoraDescontoTerceiraFaixa;
-import com.algaworks.desconto.CalculadoraFaixaDesconto;
-import com.algaworks.desconto.SemDesconto;
-
 public class PedidoVendaTest {
 
 	private PedidoBuilder pedido;
