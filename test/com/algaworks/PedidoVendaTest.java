@@ -17,12 +17,9 @@ public class PedidoVendaTest {
 
 	@Before
 	public void setup() {
-		CalculadoraFaixaDesconto calculadoraFaixaDesconto = 
-				new CalculadoraDescontoTerceiraFaixa(
-						new CalculadoraDescontoSegundaFaixa(
-								new CalculadoraDescontoPrimeiraFaiixa(
-										new SemDesconto(null))));
-		
+		CalculadoraFaixaDesconto calculadoraFaixaDesconto = new CalculadoraDescontoTerceiraFaixa(
+				new CalculadoraDescontoSegundaFaixa(new CalculadoraDescontoPrimeiraFaiixa(new SemDesconto(null))));
+
 		pedido = new Pedido(calculadoraFaixaDesconto);
 	}
 
@@ -45,8 +42,12 @@ public class PedidoVendaTest {
 	@Test
 	public void deveCalcularResumoParaUmItemSemDesconto() throws Exception {
 		pedido.adicionarItem(new ItemPedido("Sabonete", 5.0, 5));
-		
-		assertResumoPedido(25.0, 0.0);
+
+		ResumoPedido resumoPedido = pedido.resumo();
+
+		assertEquals(25.0, resumoPedido.getValorTatal(), 0.0001);
+		assertEquals(0.0, resumoPedido.getDesconto(), 0.0001);
+
 	}
 
 	@Test
@@ -77,7 +78,7 @@ public class PedidoVendaTest {
 		pedido.adicionarItem(new ItemPedido("Creme", 15.0, 30));
 		pedido.adicionarItem(new ItemPedido("�leo", 15.0, 30));
 		pedido.adicionarItem(new ItemPedido("Shampoo", 10.0, 30));
-		
+
 		assertResumoPedido(1200, 96.0);
 	}
 }
